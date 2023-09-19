@@ -1,0 +1,224 @@
+
+<html>
+<head>
+    <title>
+       TO DO LIST
+    </title>
+    <style type="text/css">
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300i,700');
+html, body{
+	height: 100%;
+	margin:0;
+	font-family: 'Open Sans Condensed', sans-serif;
+    background: url(to.webp);
+    background-size : cover;
+}
+
+body{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#app{
+	max-width: 300px;
+	width: calc(40% - 80px);
+	height: calc(80% - 80px);
+	background-color: #fff;
+	box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+	padding: 40px;
+}
+
+#app header, #day-field{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+#app header{
+	margin-top: -10px;
+	margin-bottom: 20px;
+}
+
+#month{
+	display: flex;
+	flex-flow: column wrap;
+}
+
+#month *{
+	margin: 0;
+	
+}
+
+#day{
+	font-size: 3em;
+	font-weight: bold;
+	padding-right: 5px;
+}
+
+#week{
+	font-weight: bold;
+}
+
+#app section{
+	overflow: auto;
+	height: calc(100% - 80px);
+}
+#app section article{
+	padding: 2px;
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	align-items: center;
+}
+
+input[type=checkbox]{
+	display:none;
+}
+
+label{
+	display: block;
+	border: 2px solid #E0E0E0;
+	width: 12px;
+	height: 12px;
+	border-radius: 100%;
+	cursor: pointer;
+	cursor: hand;
+}
+
+article span{
+	padding: 5px;
+}
+
+article span:focus{
+	outline: 1px solid #36E3AA;
+}
+input[type=checkbox]:checked + label{
+	border: 2px solid #36E3AA;
+	background-color: #36E3AA;
+}
+
+input[type=checkbox]:checked ~ span{
+	color: #e0e0e0;
+	text-decoration: line-through;
+}
+
+section footer{
+	display: flex;
+	justify-content: center;
+}
+
+section footer button{
+	font-weight: bold;
+	border: none;
+	background-color: #36E3AA;
+	padding: 5px;
+	font-size: 2em;
+	color: #fff;
+	border-radius: 100%;
+	width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	cursor: hand;
+	margin-top: 14px;
+	outline: none;
+	user-select: none;
+}
+
+#credits{
+    position: fixed;
+    bottom:0;
+    width: 100%;
+}
+
+#credits img{
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+#credits span{
+    display: block;
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+	user-select: none;
+}
+
+#instructions{
+	position: fixed;
+	top:0;
+	left:0;
+	background-color: #36E3AA;
+	padding: 0 20px;
+	font-size: 0.9em;
+	user-select: none;
+}
+
+#instructions a{
+	color: #000;
+}
+    </style>
+</head>
+<body >
+    <section id="app">
+        <header>
+            <div id="day-field">
+                <div id="day">17</div>
+                <div id="month"><span id="month_name">NOV</span> <span id="year">2016</span></div>
+            </div>
+            <div id="week">
+                Tuesday
+            </div>
+        </header>
+        <section id="main_sec">
+        </section>
+        <footer>
+            <button id="add_but">+</button>
+        </footer>
+    </section>
+    <script>
+        var cont = 1;
+var days = ["Sunday", "Monday", "Tuesday", "Wednesday","Thursday", "Friday", "Saturday"];
+var months = ["JAN","FEB","MAR","APR", "MAY","JUN", "JUL","AUG","SEP","OCT","NOV","DEC"];
+window.onload = function(){
+	
+	var date = new Date();
+	document.getElementById('day').innerHTML = date.getDate();
+	document.getElementById('year').innerHTML = date.getFullYear();
+	document.getElementById('month_name').innerHTML = months[date.getMonth()];
+	document.getElementById('week').innerHTML = days[date.getUTCDay()];
+	
+	document.getElementById("add_but").addEventListener("click", function(){
+		addNode(false);
+	});
+	
+	addNode(true);
+	addNode();
+	
+}
+
+function addNode(checked){
+	var newNode = document.createElement('article');      
+newNode.innerHTML  = "<input type='checkbox' id='t"+cont+"' "+((checked)?"checked":"")+"/> <label for='t"+cont+"'></label><span contenteditable='true'>Task #"+cont+"</span>";
+		newNode.id = "article"+cont;
+		newNode.ondblclick = onDblClick;
+		cont++;
+	var main_sec = document.getElementById("main_sec");
+		main_sec.appendChild(newNode);
+		
+		main_sec.scrollTop = main_sec.scrollHeight;
+}
+
+function onDblClick(event){
+	document.getElementById(event.target.id).remove();
+}
+
+    </script>
+</body>
+</html>
